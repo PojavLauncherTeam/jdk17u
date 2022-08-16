@@ -34,8 +34,23 @@
 #include "utilities/align.hpp"
 #include "utilities/debug.hpp"
 
+#include <TargetConditionals.h>
 #include <mach/mach.h>
+#if TARGET_OS_IPHONE
+extern "C" kern_return_t mach_vm_remap(vm_map_t target_task,
+                                   mach_vm_address_t *target_address,
+                                   mach_vm_size_t size,
+                                   mach_vm_offset_t mask,
+                                   int flags,
+                                   vm_map_t src_task,
+                                   mach_vm_address_t src_address,
+                                   boolean_t copy,
+                                   vm_prot_t *cur_protection,
+                                   vm_prot_t *max_protection,
+                                   vm_inherit_t inheritance);
+#else
 #include <mach/mach_vm.h>
+#endif
 #include <sys/mman.h>
 #include <sys/types.h>
 

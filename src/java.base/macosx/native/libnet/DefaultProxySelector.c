@@ -27,6 +27,9 @@
 #include <string.h>
 #include <CoreFoundation/CoreFoundation.h>
 #include <CoreServices/CoreServices.h>
+#ifdef TARGET_OS_IOS
+#include <CFNetwork/CFNetwork.h>
+#endif
 
 #include "jni.h"
 #include "jni_util.h"

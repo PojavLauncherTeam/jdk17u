@@ -51,8 +51,7 @@ $(eval $(call SetupJdkLibrary, BUILD_LIBINSTRUMENT, \
     LIBS_unix := -ljava -ljvm $(LIBZ_LIBS), \
     LIBS_linux := -ljli $(LIBDL), \
     LIBS_aix := -liconv -ljli_static $(LIBDL), \
-    LIBS_macosx := -ljli -liconv -framework Cocoa -framework Security \
-        -framework ApplicationServices, \
+    LIBS_macosx := -ljli -liconv -framework Foundation -framework Security, \
     LIBS_windows := jvm.lib $(WIN_JAVA_LIB) advapi32.lib \
         $(WINDOWS_JLI_LIB), \
 ))

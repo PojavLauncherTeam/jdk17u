@@ -40,6 +40,8 @@
 #include "c1/c1_Runtime1.hpp"
 #endif
 
+#include <sys/mman.h>
+
 void NativeCall::verify() {
   assert(NativeCall::is_call_at((address)this), "unexpected code at call site");
 }

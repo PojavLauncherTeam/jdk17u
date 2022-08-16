@@ -43,11 +43,12 @@ ifeq ($(call isTargetOs, macosx), true)
   MACH_EXC_USER := $(MIG_OUTPUT_DIR)/mach_excUser.c
   MACH_EXC_SERVER := $(MIG_OUTPUT_DIR)/mach_excServer.c
 
-  $(MACH_EXC_SERVER): $(SDKROOT)/usr/include/mach/mach_exc.defs
+  $(MACH_EXC_SERVER): ${themacsysroot}/usr/include/mach/mach_exc.defs
 	$(call MakeTargetDir)
 	$(MIG) $(if $(SDKROOT), -isysroot $(SDKROOT)) \
+	    -arch arm64 -isysroot ${themacsysroot} \
 	    -server $@ -user $(MACH_EXC_USER) \
-	    -header $(MACH_EXC_HEADER) $(SDKROOT)/usr/include/mach/mach_exc.defs
+	    -header $(MACH_EXC_HEADER) ${themacsysroot}/usr/include/mach/mach_exc.defs
 
   TARGETS += $(MACH_EXC_SERVER)
 endif

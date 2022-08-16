@@ -73,7 +73,7 @@ $(eval $(call SetupJdkExecutable, BUILD_JPACKAGE_APPLAUNCHEREXE, \
     CXXFLAGS_windows := $(JPACKAGE_CXXFLAGS_windows), \
     CFLAGS_windows := $(JPACKAGE_CFLAGS_windows), \
     LDFLAGS := $(LDFLAGS_JDKEXE), \
-    LIBS_macosx := $(LIBCXX) -framework Cocoa, \
+    LIBS_macosx := $(LIBCXX) -framework Foundation, \
     LIBS_windows := $(LIBCXX), \
     LIBS_linux := -ldl, \
     MANIFEST := $(JAVA_MANIFEST), \

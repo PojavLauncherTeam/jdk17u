@@ -29,6 +29,7 @@
 #include <objc/objc-runtime.h>
 
 #include <CoreFoundation/CoreFoundation.h>
+#define TARGET_OS_OSX 1
 #include <SystemConfiguration/SystemConfiguration.h>
 #include <Foundation/Foundation.h>
 

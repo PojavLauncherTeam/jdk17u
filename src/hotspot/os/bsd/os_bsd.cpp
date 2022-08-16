@@ -1579,7 +1579,7 @@ static void warn_fail_commit_memory(char* addr, size_t size, bool exec,
 //       left at the time of mmap(). This could be a potential
 //       problem.
 bool os::pd_commit_memory(char* addr, size_t size, bool exec) {
-  int prot = exec ? PROT_READ|PROT_WRITE|PROT_EXEC : PROT_READ|PROT_WRITE;
+  int prot = /* exec ? PROT_READ|PROT_WRITE|PROT_EXEC : */ PROT_READ|PROT_WRITE;
 #if defined(__OpenBSD__)
   // XXX: Work-around mmap/MAP_FIXED bug temporarily on OpenBSD
   Events::log(NULL, "Protecting memory [" INTPTR_FORMAT "," INTPTR_FORMAT "] with protection modes %x", p2i(addr), p2i(addr+size), prot);
@@ -1720,7 +1720,11 @@ bool os::remove_stack_guard_pages(char* addr, size_t size) {
 static char* anon_mmap(char* requested_addr, size_t bytes, bool exec) {
   // MAP_FIXED is intentionally left out, to leave existing mappings intact.
   const int flags = MAP_PRIVATE | MAP_NORESERVE | MAP_ANONYMOUS
+#if 0 // we have implemented true W^X JIT for jailed iOS so MAP_JIT is unnecessary
       MACOS_ONLY(| (exec ? MAP_JIT : 0));
+#else
+      ;
+#endif
 
   // Map reserved/uncommitted pages PROT_NONE so we fail early if we
   // touch an uncommitted page. Otherwise, the read/write might

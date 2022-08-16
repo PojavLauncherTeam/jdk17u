@@ -70,7 +70,8 @@ ifneq ($(BUILD_CRYPTO), false)
     TARGETS += $(BUILD_LIBSSPI_BRIDGE)
   endif
 
-  ifeq ($(call isTargetOs, macosx), true)
+  #ifeq ($(call isTargetOs, macosx), true)
+  ifeq (false, true)
     # libosxkrb5 needs to call deprecated krb5 APIs so that java
     # can use the native credentials cache.
     $(eval $(call SetupJdkLibrary, BUILD_LIBOSXKRB5, \

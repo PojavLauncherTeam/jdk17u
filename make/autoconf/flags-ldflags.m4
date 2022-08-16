@@ -102,11 +102,11 @@ AC_DEFUN([FLAGS_SETUP_LDFLAGS_HELPER],
 
   # Setup OS-dependent LDFLAGS
   if test "x$TOOLCHAIN_TYPE" = xclang || test "x$TOOLCHAIN_TYPE" = xgcc; then
-    if test "x$OPENJDK_TARGET_OS" = xmacosx; then
+    if test "x$OPENJDK_TARGET_OS" = xmacosx && test "$JVM_BUILDJDK" = true; then
       # Assume clang or gcc.
       # FIXME: We should really generalize SET_SHARED_LIBRARY_ORIGIN instead.
       OS_LDFLAGS_JVM_ONLY="-Wl,-rpath,@loader_path/. -Wl,-rpath,@loader_path/.."
-      OS_LDFLAGS="-mmacosx-version-min=$MACOSX_VERSION_MIN"
+      #OS_LDFLAGS="-mmacosx-version-min=$MACOSX_VERSION_MIN"
     fi
   fi
 

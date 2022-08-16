@@ -584,7 +584,7 @@ AC_DEFUN([FLAGS_SETUP_CFLAGS_HELPER],
   # Set some additional per-OS defines.
 
   # Additional macosx handling
-  if test "x$OPENJDK_TARGET_OS" = xmacosx; then
+  if test "x$OPENJDK_TARGET_OS" = xmacosx && "$JVM_BUILDJDK" = true; then
     OS_CFLAGS="-DMAC_OS_X_VERSION_MIN_REQUIRED=$MACOSX_VERSION_MIN_NODOTS \
         -mmacosx-version-min=$MACOSX_VERSION_MIN"
 

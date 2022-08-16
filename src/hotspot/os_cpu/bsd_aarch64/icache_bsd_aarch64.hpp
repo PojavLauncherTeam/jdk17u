@@ -27,6 +27,8 @@
 #ifndef OS_CPU_BSD_AARCH64_ICACHE_AARCH64_HPP
 #define OS_CPU_BSD_AARCH64_ICACHE_AARCH64_HPP
 
+#include <libkern/OSCacheControl.h>
+
 // Interface for updating the instruction cache.  Whenever the VM
 // modifies code, part of the processor instruction cache potentially
 // has to be flushed.
@@ -34,11 +36,14 @@
 class ICache : public AbstractICache {
  public:
   static void initialize();
+  static void __clear_cache_(void *start, void *end) {
+    sys_icache_invalidate(start, (char *)end-(char *)start);
+  }
   static void invalidate_word(address addr) {
-    __clear_cache((char *)addr, (char *)(addr + 4));
+    __clear_cache_((char *)addr, (char *)(addr + 4));
   }
   static void invalidate_range(address start, int nbytes) {
-    __clear_cache((char *)start, (char *)(start + nbytes));
+    __clear_cache_((char *)start, (char *)(start + nbytes));
   }
 };
 

@@ -59,7 +59,7 @@ while test $# -gt 0 ; do
         -- )   # Stop option processing
             shift; break ;;
         aarch64-* )
-            config=`echo $1 | sed 's/^aarch64-/arm-/'`
+            config=`echo $1 | sed 's/^aarch64-/arm-/' | sed 's/-ios/-darwin/g'`
             sub_args="$sub_args $config"
             shift; ;;
         - )    # Use stdin as input.
@@ -74,7 +74,7 @@ done
 result=`. $DIR/autoconf-config.sub $sub_args "$@"`
 exitcode=$?
 
-result=`echo $result | sed "s/^arm-/aarch64-/"`
+result=`echo $result | sed "s/^arm-/aarch64-/" | sed "s/-darwin/-ios/g"`
 
 echo $result
 exit $exitcode
