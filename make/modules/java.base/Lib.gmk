@@ -95,7 +95,7 @@ $(BUILD_LIBNIO): $(BUILD_LIBNET)
 ################################################################################
 # Create the macosx security library
 
-ifeq ($(call isTargetOs, macosx), true)
+ifeq ($(call isTargetOs, macosx_NOTIOS), true)
 
     $(eval $(call SetupJdkLibrary, BUILD_LIBOSXSECURITY, \
         NAME := osxsecurity, \

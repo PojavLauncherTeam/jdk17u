@@ -31,6 +31,7 @@
 #include <CoreFoundation/CoreFoundation.h>
 #define TARGET_OS_OSX 1
 #include <SystemConfiguration/SystemConfiguration.h>
+#undef TARGET_OS_OSX
 #include <Foundation/Foundation.h>
 
 #include "java_props_macosx.h"
