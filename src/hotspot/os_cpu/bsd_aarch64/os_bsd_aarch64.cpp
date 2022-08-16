@@ -540,7 +540,8 @@ int os::extra_bang_size_in_bytes() {
 }
 
 void os::current_thread_enable_wx(WXMode mode) {
-  pthread_jit_write_protect_np(mode == WXExec);
+  // We already have W^X JIT, so this is not needed
+  //pthread_jit_write_protect_np(mode == WXExec);
 }
 
 extern "C" {
