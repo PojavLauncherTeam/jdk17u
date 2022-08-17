@@ -794,6 +794,26 @@ void os::Bsd::clock_init() {
 
 
 #ifdef __APPLE__
+static bool rwxChecked, rwxAvailable;
+#endif
+bool os::Bsd::isRWXJITAvailable() {
+#ifdef __APPLE__
+  if (!rwxChecked) {
+    rwxChecked = true;
+    const int flags = MAP_PRIVATE | MAP_NORESERVE | MAP_ANONYMOUS | MAP_JIT;
+    char* addr = (char*)::mmap(0, getpagesize(), PROT_NONE, flags, -1, 0);
+    rwxAvailable = addr != MAP_FAILED;
+    if (rwxAvailable) {
+      ::munmap(addr, getpagesize());
+    }
+  }
+  return rwxAvailable;
+#else
+  return true;
+#endif
+}
+
+#ifdef __APPLE__
 
 jlong os::javaTimeNanos() {
   const uint64_t tm = mach_absolute_time();
@@ -1579,7 +1599,7 @@ static void warn_fail_commit_memory(char* addr, size_t size, bool exec,
 //       left at the time of mmap(). This could be a potential
 //       problem.
 bool os::pd_commit_memory(char* addr, size_t size, bool exec) {
-  int prot = /* exec ? PROT_READ|PROT_WRITE|PROT_EXEC : */ PROT_READ|PROT_WRITE;
+  int prot = exec&&os::Bsd::isRWXJITAvailable() ? PROT_READ|PROT_WRITE|PROT_EXEC : PROT_READ|PROT_WRITE;
 #if defined(__OpenBSD__)
   // XXX: Work-around mmap/MAP_FIXED bug temporarily on OpenBSD
   Events::log(NULL, "Protecting memory [" INTPTR_FORMAT "," INTPTR_FORMAT "] with protection modes %x", p2i(addr), p2i(addr+size), prot);
@@ -1720,11 +1740,7 @@ bool os::remove_stack_guard_pages(char* addr, size_t size) {
 static char* anon_mmap(char* requested_addr, size_t bytes, bool exec) {
   // MAP_FIXED is intentionally left out, to leave existing mappings intact.
   const int flags = MAP_PRIVATE | MAP_NORESERVE | MAP_ANONYMOUS
-#if 0 // we have implemented true W^X JIT for jailed iOS so MAP_JIT is unnecessary
-      MACOS_ONLY(| (exec ? MAP_JIT : 0));
-#else
-      ;
-#endif
+      MACOS_ONLY(| (exec && os::Bsd::isRWXJITAvailable() ? MAP_JIT : 0));
 
   // Map reserved/uncommitted pages PROT_NONE so we fail early if we
   // touch an uncommitted page. Otherwise, the read/write might

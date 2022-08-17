@@ -157,7 +157,7 @@ $(eval $(call SetupJdkLibrary, BUILD_LIBAWT, \
     LIBS_unix := -ljvm -ljava $(LIBM), \
     LIBS_linux :=  $(LIBDL), \
     LIBS_aix := $(LIBDL),\
-    LIBS_macosx := -lmlib_image \
+    LIBS_macosx_NOTIOS := -lmlib_image \
         -framework Cocoa \
         -framework OpenGL \
         -framework Metal \
@@ -353,7 +353,7 @@ TARGETS += $(BUILD_LIBJAVAJPEG)
 ################################################################################
 
 # Mac and Windows only use the native AWT lib, do not build libawt_headless
-ifeq ($(call isTargetOs, windows macosx), false)
+ifeq ($(call isTargetOs, windows macosx_NOTIOS), false)
 
   LIBAWT_HEADLESS_EXTRA_SRC := \
       common/font \
@@ -535,7 +535,7 @@ $(eval $(call SetupJdkLibrary, BUILD_LIBFONTMANAGER, \
     LDFLAGS_aix := -Wl$(COMMA)-berok, \
     LIBS := $(BUILD_LIBFONTMANAGER_FONTLIB), \
     LIBS_unix := -lawt -ljava -ljvm $(LIBM) $(LIBCXX), \
-    LIBS_macosx := -lawt_lwawt -framework CoreText -framework CoreFoundation -framework CoreGraphics, \
+    LIBS_macosx := -lawt_headless -framework CoreText -framework CoreFoundation -framework CoreGraphics, \
     LIBS_windows := $(WIN_JAVA_LIB) advapi32.lib user32.lib gdi32.lib \
         $(WIN_AWT_LIB), \
 ))
@@ -543,7 +543,8 @@ $(eval $(call SetupJdkLibrary, BUILD_LIBFONTMANAGER, \
 $(BUILD_LIBFONTMANAGER): $(BUILD_LIBAWT)
 
 ifeq ($(call isTargetOs, macosx), true)
-  $(BUILD_LIBFONTMANAGER): $(call FindLib, $(MODULE), awt_lwawt)
+  $(BUILD_LIBFONTMANAGER): $(call FindLib, $(MODULE), awt_headless)
+  # awt_lwawt
 endif
 
 ifeq ($(FREETYPE_TO_USE), bundled)
@@ -601,7 +602,7 @@ else # not windows
     LIBJAWT_EXCLUDE_SRC_PATTERNS := /unix/
   endif
 
-  ifeq ($(call isTargetOs, macosx), true)
+  ifeq ($(call isTargetOs, macosx_NOTIOS), true)
     JAWT_LIBS := -lawt_lwawt
   else
     JAWT_LIBS := -lawt
@@ -631,7 +632,7 @@ else # not windows
       LDFLAGS_unix := -L$(INSTALL_LIBRARIES_HERE), \
       LDFLAGS_macosx := -Wl$(COMMA)-rpath$(COMMA)@loader_path, \
       LIBS_unix := $(JAWT_LIBS) $(JDKLIB_LIBS), \
-      LIBS_macosx := -framework Cocoa, \
+      LIBS_macosx_NOTIOS := -framework Cocoa, \
   ))
 
   ifeq ($(ENABLE_HEADLESS_ONLY), false)
@@ -640,7 +641,7 @@ else # not windows
     $(BUILD_LIBJAWT): $(call FindLib, $(MODULE), awt_headless)
   endif
 
-  ifeq ($(call isTargetOs, macosx), true)
+  ifeq ($(call isTargetOs, macosx_NOTIOS), true)
    $(BUILD_LIBJAWT): $(call FindLib, $(MODULE), awt_lwawt)
   endif
 
@@ -771,7 +772,7 @@ endif
 
 ################################################################################
 
-ifeq ($(call isTargetOs, macosx), true)
+ifeq ($(call isTargetOs, macosx_NOTIOS), true)
 
   LIBAWT_LWAWT_EXTRA_SRC := \
       $(TOPDIR)/src/$(MODULE)/unix/native/common/awt \
@@ -855,7 +856,7 @@ else
     MACOSX_METAL_VERSION_MIN=10.14.0
 endif
 
-ifeq ($(call isTargetOs, macosx), true)
+ifeq ($(call isTargetOs, macosx_NOTIOS), true)
   SHADERS_SRC := $(TOPDIR)/src/java.desktop/macosx/native/libawt_lwawt/java2d/metal/shaders.metal
   SHADERS_SUPPORT_DIR := $(SUPPORT_OUTPUTDIR)/native/java.desktop/libosxui
   SHADERS_AIR := $(SHADERS_SUPPORT_DIR)/shaders.air

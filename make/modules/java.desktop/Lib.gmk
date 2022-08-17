@@ -40,7 +40,8 @@ include lib/Awt2dLibraries.gmk
 ################################################################################
 # Create the libjsound library
 
-ifeq ($(call isTargetOs, aix), false)
+#ifeq ($(call isTargetOs, aix), false)
+ifeq ($(call isTargetOs, macosx), false)
 
   LIBJSOUND_CFLAGS := \
       $(ALSA_CFLAGS) \
@@ -83,7 +84,7 @@ endif
 ################################################################################
 # Create the macosx specific osxapp and osx libraries
 
-ifeq ($(call isTargetOs, macosx), true)
+ifeq ($(call isTargetOs, macosx_NOTIOS), true)
 
   $(eval $(call SetupJdkLibrary, BUILD_LIBOSXAPP, \
       NAME := osxapp, \

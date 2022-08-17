@@ -29,9 +29,13 @@
 #include <objc/objc-runtime.h>
 
 #include <CoreFoundation/CoreFoundation.h>
-#define TARGET_OS_OSX 1
+#ifndef TARGET_OS_IOS
 #include <SystemConfiguration/SystemConfiguration.h>
-#undef TARGET_OS_OSX
+#else
+#include "OSXSCSchemaDefinitions.h"
+#include <SystemConfiguration/SCDynamicStore.h>
+CFDictionaryRef SCDynamicStoreCopyProxies(SCDynamicStoreRef	store);
+#endif
 #include <Foundation/Foundation.h>
 
 #include "java_props_macosx.h"

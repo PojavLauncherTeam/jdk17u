@@ -588,9 +588,9 @@ int JVM_HANDLE_XXX_SIGNAL(int sig, siginfo_t* info,
   Thread* const t = Thread::current_or_null_safe();
 
   // Hopefully placing W^X handing here is safe enough, maybe check repeat?
-  address pc = (address) os::Posix::ucontext_get_pc(uc);
-  if (sig == SIGBUS) {
-    static address last_pc, last_si_addr;
+  if (!os::Bsd::isRWXJITAvailable() && sig == SIGBUS) {
+    address pc = (address) os::Posix::ucontext_get_pc(uc);
+    //static address last_pc, last_si_addr;
     if (pc == info->si_addr) { //(pc >= CodeCache::low_bound() && pc < CodeCache::high_bound()) {
     //(CodeCache::contains(pc) || thread->thread_state() == _thread_in_Java) {
         //if (last_pc != pc) {

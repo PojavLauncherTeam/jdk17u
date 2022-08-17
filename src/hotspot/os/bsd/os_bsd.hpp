@@ -58,6 +58,7 @@ class Bsd {
 
  public:
 
+  static bool isRWXJITAvailable();
   static void init_thread_fpu_state();
   static pthread_t main_thread(void)                                { return _main_thread; }
 

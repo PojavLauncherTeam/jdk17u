@@ -42,6 +42,9 @@ DEF_STATIC_JNI_OnLoad
 _JNI_IMPORT_OR_EXPORT_ jboolean JNICALL JAWT_GetAWT
 (JNIEnv* env, JAWT* awt)
 {
+#if defined(HEADLESS)
+    return JNI_FALSE;
+#else
     if (awt == NULL) {
         return JNI_FALSE;
     }
@@ -67,4 +70,5 @@ _JNI_IMPORT_OR_EXPORT_ jboolean JNICALL JAWT_GetAWT
     }
 
     return JNI_TRUE;
+#endif
 }

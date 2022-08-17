@@ -54,6 +54,7 @@
 #include "utilities/align.hpp"
 #include "utilities/events.hpp"
 #include "utilities/vmError.hpp"
+#include "tcg-apple-jit.h"
 
 // put OS-includes here
 # include <sys/types.h>
@@ -540,8 +541,9 @@ int os::extra_bang_size_in_bytes() {
 }
 
 void os::current_thread_enable_wx(WXMode mode) {
-  // We already have W^X JIT, so this is not needed
-  //pthread_jit_write_protect_np(mode == WXExec);
+  if (os::Bsd::isRWXJITAvailable()) {
+    jit_write_protect(mode == WXExec);
+  }
 }
 
 extern "C" {
