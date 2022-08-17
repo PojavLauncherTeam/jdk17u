@@ -39,6 +39,10 @@
 #include "porting_aix.h" /* For the 'dladdr' function. */
 #endif
 
+#ifdef __APPLE__
+#include <TargetConditionals.h>
+#endif
+
 #ifdef DEBUG
 #define VERBOSE_AWT_DEBUG
 #endif
@@ -89,6 +93,12 @@ JNIEXPORT jboolean JNICALL AWTIsHeadless() {
  * Pathnames to the various awt toolkits
  */
 
+#ifdef TARGET_OS_IPHONE
+  #undef MACOSX
+  #define XAWT_PATH "/libawt_xawt.dylib"
+  #define DEFAULT_PATH XAWT_PATH
+  #define HEADLESS_PATH "/libawt_headless.dylib"
+#else
 #ifdef MACOSX
   #define LWAWT_PATH "/libawt_lwawt.dylib"
   #define DEFAULT_PATH LWAWT_PATH
@@ -96,6 +106,7 @@ JNIEXPORT jboolean JNICALL AWTIsHeadless() {
   #define XAWT_PATH "/libawt_xawt.so"
   #define DEFAULT_PATH XAWT_PATH
   #define HEADLESS_PATH "/libawt_headless.so"
+#endif
 #endif
 
 jint
