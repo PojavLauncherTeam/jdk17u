@@ -80,7 +80,7 @@ ifeq ($(call isTargetOs, linux macosx aix), true)
   LIBAWT_EXFILES += awt_Font.c CUPSfuncs.c fontpath.c X11Color.c
 endif
 
-ifeq ($(call isTargetOs, macosx), true)
+ifeq ($(call isTargetOs, macosx_NOTIOS), true)
   LIBAWT_EXFILES += initIDs.c awt/image/cvutils/img_colors.c
 endif
 
@@ -599,7 +599,8 @@ else # not windows
 
   ifeq ($(call isTargetOs, macosx), true)
     # libjawt on macosx do not use the unix code
-    LIBJAWT_EXCLUDE_SRC_PATTERNS := /unix/
+    # libjawt on iOS do not use the macosx code
+    LIBJAWT_EXCLUDE_SRC_PATTERNS := /macosx/
   endif
 
   ifeq ($(call isTargetOs, macosx_NOTIOS), true)
@@ -610,7 +611,7 @@ else # not windows
       JAWT_LIBS += -lawt_xawt
     else
       JAWT_LIBS += -lawt_headless
-      ifeq ($(call isTargetOs, linux), true)
+      ifeq ($(call isTargetOs, linux macosx_NOTIOS), true)
         JAWT_CFLAGS += -DHEADLESS
       endif
     endif
