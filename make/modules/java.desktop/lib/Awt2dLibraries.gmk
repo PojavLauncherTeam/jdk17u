@@ -357,8 +357,8 @@ ifeq ($(call isTargetOs, windows macosx_NOTIOS), false)
 
   LIBAWT_HEADLESS_EXTRA_SRC := \
       common/font \
-      common/java2d \
       $(TOPDIR)/src/$(MODULE)/$(OPENJDK_TARGET_OS_TYPE)/native/common/awt \
+      # common/java2d \
       #
 
   LIBAWT_HEADLESS_EXCLUDES := medialib
