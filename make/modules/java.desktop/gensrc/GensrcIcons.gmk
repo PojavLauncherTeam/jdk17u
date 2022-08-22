@@ -106,7 +106,7 @@ TARGETS += $(GENSRC_AWT_ICONS)
 
 ################################################################################
 
-ifeq ($(call isTargetOs, macosx), true)
+ifeq ($(call isTargetOs, macosx_NOTIOS), true)
 
   GENSRC_OSX_ICONS_DST := $(SUPPORT_OUTPUTDIR)/headers/java.desktop
   GENSRC_OSX_ICONS := $(GENSRC_OSX_ICONS_DST)/AWTIconData.h
