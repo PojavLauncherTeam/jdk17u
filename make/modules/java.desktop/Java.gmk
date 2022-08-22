@@ -64,8 +64,9 @@ EXCLUDE_FILES += \
     .template \
     #
 
-ifeq ($(call isTargetOs, macosx_NOTIOS), true)
-  # exclude all X11 on Mac.
+ifeq ($(call isTargetOs, macosx), true)
+  ## exclude all X11 on Mac.
+  # exclude all AppKit on iOS
   EXCLUDES += \
       sun/awt/X11 \
       sun/java2d/x11 \
@@ -74,10 +75,14 @@ ifeq ($(call isTargetOs, macosx_NOTIOS), true)
       com/sun/java/swing/plaf/gtk \
       #
   EXCLUDE_FILES += \
-      $(wildcard $(TOPDIR)/src/java.desktop/unix/classes/sun/java2d/*.java) \
-      $(wildcard $(TOPDIR)/src/java.desktop/unix/classes/sun/java2d/opengl/*.java) \
-      $(wildcard $(TOPDIR)/src/java.desktop/unix/classes/sun/awt/*.java) \
-      $(wildcard $(TOPDIR)/src/java.desktop/unix/classes/sun/font/*.java) \
+      $(wildcard $(TOPDIR)/src/java.desktop/macosx/classes/sun/java2d/*.java) \
+      $(wildcard $(TOPDIR)/src/java.desktop/macosx/classes/sun/java2d/metal/*.java) \
+      $(wildcard $(TOPDIR)/src/java.desktop/macosx/classes/sun/java2d/opengl/*.java) \
+      $(wildcard $(TOPDIR)/src/java.desktop/macosx/classes/sun/awt/*.java) \
+      $(wildcard $(TOPDIR)/src/java.desktop/macosx/classes/sun/font/*.java) \
+      $(wildcard $(TOPDIR)/src/java.desktop/macosx/classes/sun/lwawt/*.java) \
+      $(wildcard $(TOPDIR)/src/java.desktop/macosx/classes/sun/lwawt/macosx/*.java) \
+      $(wildcard $(TOPDIR)/src/java.desktop/macosx/classes/sun/print/*.java) \
       #
 else
   # TBD: figure out how to eliminate this long list
