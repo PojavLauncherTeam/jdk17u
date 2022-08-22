@@ -72,6 +72,7 @@ ifeq ($(call isTargetOs, macosx), true)
       sun/java2d/x11 \
       sun/java2d/jules \
       sun/java2d/xr \
+      sun/lwawt \
       com/sun/java/swing/plaf/gtk \
       #
   EXCLUDE_FILES += \
@@ -80,8 +81,6 @@ ifeq ($(call isTargetOs, macosx), true)
       $(wildcard $(TOPDIR)/src/java.desktop/macosx/classes/sun/java2d/opengl/*.java) \
       $(wildcard $(TOPDIR)/src/java.desktop/macosx/classes/sun/awt/*.java) \
       $(wildcard $(TOPDIR)/src/java.desktop/macosx/classes/sun/font/*.java) \
-      $(wildcard $(TOPDIR)/src/java.desktop/macosx/classes/sun/lwawt/*.java) \
-      $(wildcard $(TOPDIR)/src/java.desktop/macosx/classes/sun/lwawt/macosx/*.java) \
       $(wildcard $(TOPDIR)/src/java.desktop/macosx/classes/sun/print/*.java) \
       #
   # exclude some strange files that did not compile due to missing classes
