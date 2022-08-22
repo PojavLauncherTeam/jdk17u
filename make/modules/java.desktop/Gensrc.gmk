@@ -52,7 +52,7 @@ PROP_SRC_DIRS := \
     $(TOPDIR)/src/java.desktop/share/classes/sun/print/resources \
     #
 
-ifeq ($(call isTargetOs, macosx), true)
+ifeq ($(call isTargetOs, macosx_NOTIOS), true)
   PROP_SRC_DIRS += \
       $(TOPDIR)/src/java.desktop/macosx/classes/com/apple/laf/resources \
       $(TOPDIR)/src/java.desktop/macosx/classes/sun/awt/resources \
