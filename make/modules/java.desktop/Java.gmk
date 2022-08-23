@@ -64,32 +64,28 @@ EXCLUDE_FILES += \
     .template \
     #
 
-ifeq ($(call isTargetOs, macosx), true)
-  ## exclude all X11 on Mac.
-  # exclude all AppKit on iOS
+ifeq ($(call isTargetOs, macosx_NOTIOS), true)
+  # exclude all X11 on Mac.
   EXCLUDES += \
       sun/awt/X11 \
       sun/java2d/x11 \
       sun/java2d/jules \
       sun/java2d/xr \
-      sun/lwawt \
       com/sun/java/swing/plaf/gtk \
       #
   EXCLUDE_FILES += \
-      $(wildcard $(TOPDIR)/src/java.desktop/macosx/classes/sun/java2d/*.java) \
-      $(wildcard $(TOPDIR)/src/java.desktop/macosx/classes/sun/java2d/metal/*.java) \
-      $(wildcard $(TOPDIR)/src/java.desktop/macosx/classes/sun/java2d/opengl/*.java) \
-      $(wildcard $(TOPDIR)/src/java.desktop/macosx/classes/sun/awt/*.java) \
-      $(wildcard $(TOPDIR)/src/java.desktop/macosx/classes/sun/font/*.java) \
-      $(wildcard $(TOPDIR)/src/java.desktop/macosx/classes/sun/print/*.java) \
+      $(wildcard $(TOPDIR)/src/java.desktop/unix/classes/sun/java2d/*.java) \
+      $(wildcard $(TOPDIR)/src/java.desktop/unix/classes/sun/java2d/opengl/*.java) \
+      $(wildcard $(TOPDIR)/src/java.desktop/unix/classes/sun/awt/*.java) \
+      $(wildcard $(TOPDIR)/src/java.desktop/unix/classes/sun/font/*.java) \
       #
+else
   # exclude some strange files that did not compile due to missing classes
   EXCLUDE_FILES += \
       $(TOPDIR)/src/java.desktop/unix/classes/sun/font/X11GB2312.java \
       $(TOPDIR)/src/java.desktop/unix/classes/sun/font/X11GBK.java \
       $(TOPDIR)/src/java.desktop/unix/classes/sun/font/X11KSC5601.java \
       #
-else
   # TBD: figure out how to eliminate this long list
   EXCLUDE_FILES += \
       sun/awt/X11/ScreenFormat.java \
