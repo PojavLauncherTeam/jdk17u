@@ -40,8 +40,7 @@ include lib/Awt2dLibraries.gmk
 ################################################################################
 # Create the libjsound library
 
-#ifeq ($(call isTargetOs, aix), false)
-ifeq ($(call isTargetOs, macosx), false)
+ifeq ($(call isTargetOs, aix), false)
 
   LIBJSOUND_CFLAGS := \
       $(ALSA_CFLAGS) \
@@ -56,6 +55,7 @@ ifeq ($(call isTargetOs, macosx), false)
     LIBJSOUND_TOOLCHAIN := TOOLCHAIN_LINK_CXX
   endif
 
+  # -framework AudioUnit
   $(eval $(call SetupJdkLibrary, BUILD_LIBJSOUND, \
       NAME := jsound, \
       TOOLCHAIN := $(LIBJSOUND_TOOLCHAIN), \
@@ -70,7 +70,7 @@ ifeq ($(call isTargetOs, macosx), false)
       LIBS_unix := -ljava -ljvm, \
       LIBS_linux := $(ALSA_LIBS), \
       LIBS_macosx := -framework CoreAudio -framework CoreFoundation \
-          -framework CoreServices -framework AudioUnit \
+          -framework CoreServices -framework AVFoundation \
           -framework CoreMIDI -framework AudioToolbox $(LIBCXX), \
       LIBS_windows := $(WIN_JAVA_LIB) advapi32.lib dsound.lib winmm.lib user32.lib ole32.lib, \
   ))
